@@ -355,6 +355,9 @@ class ProverAgent:
                     show_warnings=False,
                     build=True,
                 )
+                if not build_success:
+                    with open("logs.log", "a") as f:
+                        f.write(f"\n\nBUILD_MESSAGE:\n{message}\n\n")
             except LeanBuildTimeout as e:
                 state.metrics.build_timeout_count += 1
                 self.logger.warning(f"Build timeout: {e}")

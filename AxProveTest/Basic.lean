@@ -5,9 +5,15 @@ theorem test1 (a b : ℤ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by
 
 theorem test2 (x y : ℝ) (h1 : x < y) (h2 : 0 < x) : x^2 < y^2 := by
   have hy : 0 < y := lt_trans h2 h1
-  have hmul : x * x < y * y := by
-    exact mul_lt_mul h1 (le_of_lt h1) h2 (le_of_lt hy)
-  simpa [pow_two] using hmul
+  calc
+    x^2 = x * x := by ring
+    _ < y * x := by exact mul_lt_mul_of_pos_right h1 h2
+    _ < y * y := by exact mul_lt_mul_of_pos_left h1 hy
+    _ = y^2 := by ring
+
+
+theorem test4 (x y : ℝ) (h1 : x < y) (h2 : 0 < x) : x^2 > y^2 := by
+  sorry
 
 def problem_spec
 -- function signature
