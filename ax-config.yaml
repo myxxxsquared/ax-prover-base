@@ -1,0 +1,6 @@
+prover:
+  prover_llm:
+    model: "gpt-5.5"
+    provider_config:
+      base_url: "https://yunwu.ai/v1"
+      model_provider: "openai"
