@@ -20,9 +20,9 @@ from .lean_parsing import (
 
 # Export logging utilities
 from .logging import (
-    attach_builder_files,
-    attach_lean_files,
-    attach_prover_logs_if_enabled,
+    # attach_builder_files,
+    # attach_lean_files,
+    # attach_prover_logs_if_enabled,
     get_logger,
     reconfigure_log_level,
 )

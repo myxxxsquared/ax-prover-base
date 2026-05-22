@@ -56,7 +56,7 @@ async def get_lean_search_session() -> aiohttp.ClientSession:
         if _lean_search_session is not None and not _lean_search_session.closed:
             return _lean_search_session
 
-        connector = aiohttp.TCPConnector(limit=100, limit_per_host=30)
+        connector = aiohttp.TCPConnector(limit=100, limit_per_host=30, verify_ssl=False)
         _lean_search_session = aiohttp.ClientSession(connector=connector)
         logger.debug("Created global ClientSession for LeanSearch")
 
@@ -131,6 +131,9 @@ async def _make_lean_search_request_with_retry(
         except aiohttp.ClientResponseError as e:
             error_detail = f"HTTP {e.status}: {e.message}"
             should_retry = e.status == 429
+
+            import traceback
+            traceback.print_exc()
 
             if should_retry and attempt < config.max_retries - 1:
                 await _retry_with_backoff(attempt, config, error_detail)

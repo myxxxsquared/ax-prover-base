@@ -28,8 +28,8 @@ from ..models.messages import (
 from ..models.proving import ProverResult, ReviewDecision
 from ..tools import create_tool
 from ..utils import (
-    attach_builder_files,
-    attach_prover_logs_if_enabled,
+    # attach_builder_files,
+    # attach_prover_logs_if_enabled,
     count_pattern,
     get_function_from_location,
     get_git_hash,
@@ -101,7 +101,7 @@ class ProverAgent:
         summary_llm_config = self.config.summarize_output.llm or self.config.prover_llm
         self.summary_llm_client = LLMClient(summary_llm_config)
 
-        self.max_input_tokens = self.llm_client.profile.get("max_input_tokens")
+        self.max_input_tokens = 128000
         if self.max_input_tokens < 1000:
             self.logger.error("Error: max_input_tokens abnormally small")
 
@@ -339,11 +339,11 @@ class ProverAgent:
                 feedback = BuildFailedFeedback(error_output=applier.error)
                 return {"messages": [feedback]}
 
-            attach_builder_files(
-                base_folder=self.base_folder,
-                original_file_relative_path=str(state.item.location.path),
-                modified_file_relative_path=str(applier.location.path),
-            )
+            # attach_builder_files(
+            #     base_folder=self.base_folder,
+            #     original_file_relative_path=str(state.item.location.path),
+            #     modified_file_relative_path=str(applier.location.path),
+            # )
 
             self.logger.info(f"Running Lean compiler on {applier.location.path}...")
             try:
@@ -491,7 +491,7 @@ class ProverAgent:
         )
 
         self.logger.debug("Attaching aggregated logs to trace")
-        attach_prover_logs_if_enabled()
+        # attach_prover_logs_if_enabled()
 
         return {"metrics": state.metrics}
 

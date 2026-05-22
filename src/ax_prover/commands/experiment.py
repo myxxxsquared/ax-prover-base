@@ -3,8 +3,8 @@
 from asyncio import Semaphore
 from pathlib import Path
 
-from langsmith import Client, traceable
-from langsmith.schemas import Run
+# from langsmith import Client, traceable
+# from langsmith.schemas import Run
 from omegaconf import OmegaConf
 
 from ..config import Config
@@ -57,6 +57,8 @@ async def experiment(
     logger.debug(f"Experiment prefix: {experiment_prefix}")
 
     try:
+
+        raise NotImplementedError("TRACE TO TRACK DISABLE LANGSMITH")
         client = Client()
 
         lean_semaphore = Semaphore(config.runtime.lean.max_concurrent_builds)
@@ -152,7 +154,7 @@ async def experiment(
         return 1
 
 
-@traceable
+# @traceable
 async def run_experiment(
     inputs: dict[str, str], config: Config, lean_semaphore: Semaphore, folder: str
 ) -> dict:

@@ -13,8 +13,8 @@ from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 
-from langsmith import traceable
-from langsmith.schemas import Attachment
+# from langsmith import traceable
+# from langsmith.schemas import Attachment
 
 
 class LangSmithLogAggregator(logging.Handler):
@@ -71,12 +71,14 @@ def get_langsmith_aggregator() -> LangSmithLogAggregator | None:
     if not _is_langsmith_enabled():
         return None
 
+    raise NotImplementedError("TRACE TO TRACK DISABLE LANGSMITH")
+
     aggregator = LangSmithLogAggregator()
     # No cleanup needed - aggregator has no background threads
     return aggregator
 
 
-@traceable(name="attach_lean_files")
+# @traceable(name="attach_lean_files")
 def attach_lean_files(
     original_file_path: str,
     modified_file_path: str,
@@ -155,7 +157,7 @@ def attach_builder_files(
     )
 
 
-@traceable(name="attach_aggregated_logs")
+# @traceable(name="attach_aggregated_logs")
 def _attach_aggregated_logs(log_data: Attachment, metadata: dict) -> None:
     """Attach aggregated logs to the LangSmith trace.
 

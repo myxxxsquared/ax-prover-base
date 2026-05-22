@@ -1,10 +1,13 @@
 import Mathlib
 
 theorem test1 (a b : ℤ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by
-  sorry
+  ring
 
 theorem test2 (x y : ℝ) (h1 : x < y) (h2 : 0 < x) : x^2 < y^2 := by
-  sorry
+  have hy : 0 < y := lt_trans h2 h1
+  have hmul : x * x < y * y := by
+    exact mul_lt_mul h1 (le_of_lt h1) h2 (le_of_lt hy)
+  simpa [pow_two] using hmul
 
 def problem_spec
 -- function signature
@@ -24,4 +27,15 @@ def fake_implementation_13_2 (a b : Int) : Int :=
   fake_implementation_13_2_expected
 
 theorem test3 : problem_spec fake_implementation_13_2 (0) (7) := by
-  sorry
+  unfold problem_spec fake_implementation_13_2 fake_implementation_13_2_expected
+  use 7
+  constructor
+  · rfl
+  · constructor
+    · norm_num
+    · constructor
+      · norm_num
+      · constructor
+        · norm_num
+        · intro d' h0 h7
+          exact h7

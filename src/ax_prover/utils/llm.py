@@ -116,7 +116,17 @@ class LLMClient:
 
     def __init__(self, config: LLMConfig):
         """Initialize the LLMClient with a configuration."""
-        self._base_llm: BaseChatModel = create_llm(config)
+        from langchain_openai import ChatOpenAI
+        llm = ChatOpenAI(
+            model="gpt-5.5",
+            api_key="sk-Ulpl7tBjPFbrwTdqSJNui0cY73G8XyS7n2dZpvZJKNECOzEZ",
+            base_url="https://yunwu.ai/v1",
+            temperature=0,
+            timeout=60,
+            max_retries=2,
+        )
+
+        self._base_llm: BaseChatModel = llm
         self._retry_config: dict = config.retry_config
 
     @property
